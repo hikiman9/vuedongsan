@@ -87,16 +87,16 @@ div {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #24486c;
 }
 
 .menu {
-  background: darkslateblue;
+  background: rgb(75, 66, 138);
   padding: 15px;
   border-radius: 5px;
 }
 .menu a {
-  color: white;
+  color: rgb(237, 233, 233);
   padding: 10px;
 }
 </style>
