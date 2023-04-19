@@ -1,47 +1,48 @@
 <template>
 
-  <div class = 'black-bg' v-if = 'modalOpen == true'>
+  <!-- <div class = 'black-bg' v-if = 'modalOpen == true'>
     <div class = 'white-bg'>
-      <h4>상세페이지</h4>
-      <p>상세페이지 내용</p>
+      <h4>{{onerooms[modalPressed].title}}</h4>
+      <img :src="onerooms[modalPressed].image" style = "width: 100%">
+      <p>{{onerooms[modalPressed].content}}</p>
+      <p>{{onerooms[modalPressed].price}}원</p>
       <button @click = 'modalOpen = false'>닫기</button>
     </div>
-  </div>
+  </div> -->
+
+  <ModalComponent :onerooms = 'onerooms' :modalPressed = 'modalPressed' :modalOpen = 'modalOpen'/>
+
+  <!-- v-if에 맞는 v-else랑 v-else-if  -->
+  <!-- html 태그 속성에 데이터 바인딩할 때는 {{}}가 아니라 속성 앞에 : -->
 
   <div class = 'menu'>
     <a v-for = 'a in menus' :key = 'a'> {{a}} </a>
   </div>
 
-  <div>
-    <img src="./assets/room0.jpg" class = 'room_img'>
-    <h4 @click = 'modalOpen = true'>{{products[0]}} 원룸</h4>
-      <p>50만원</p>
-      <button @click = 'reports[0]++'>허위 매물 신고</button>
-      <span>신고 수:{{reports[0]}} </span>
-  </div>
-  <div>
-    <img src="./assets/room1.jpg" class = 'room_img'>
-    <h4 @click = 'modalOpen = true'>{{products[1]}} 원룸</h4>
-      <p>50만원</p>
-      <button @click = 'reports[1]++'>허위 매물 신고</button>
-      <span>신고 수:{{reports[1]}} </span>
-  </div>
-  <div>
-    <img src="./assets/room2.jpg" class = 'room_img'>
-    <h4 @click = 'modalOpen = true'>{{products[2]}} 원룸</h4>
-      <p>50만원</p>
-      <button @click = 'reports[2]++'>허위 매물 신고</button>
-      <span>신고 수:{{reports[2]}} </span>
-  </div>
+  <DiscountBanner/>
+
+  <!-- <div v-for = '(a, i) in onerooms' :key = 'i'>
+    <img :src="a.image" class = 'room_img'>
+    <h4 @click = 'modalOpen = true'>{{a.title}} </h4>
+    <p>{{a.price}}원</p>
+  </div> -->
+
+  <CardBanner :oneroom = 'onerooms[i]' v-for='(a, i) in onerooms' :key= 'i'/>
 
 </template>
    
 <script>
 
+import data from './assets/OneroomDetail.js';
+import DiscountBanner from './DiscountBanner.vue'
+import CardBanner from './CardBanner.vue'
+
 export default {
   name: 'App',
   data(){
     return{
+      modalPressed : 0,
+      onerooms : data,
       reports : [0, 0, 0],
       menus : ['Home', 'Shop', 'About'],
       products : ['역삼동원룸', '천호동원룸', '마포구원룸'],
@@ -51,6 +52,8 @@ export default {
   methods: {
   },
   components: {
+    DiscountBanner : DiscountBanner,
+    CardBanner : CardBanner,
   }
 }
 </script>
@@ -88,6 +91,13 @@ div {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #24486c;
+}
+
+.discount {
+  background: #eee;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
 }
 
 .menu {
