@@ -10,7 +10,8 @@
     </div>
   </div> -->
 
-  <ModalComponent :onerooms = 'onerooms' :modalPressed = 'modalPressed' :modalOpen = 'modalOpen'/>
+  <ModalComponent @closeModal = 'modalOpen = false'
+   :onerooms = 'onerooms' :modalPressed = 'modalPressed' :modalOpen = 'modalOpen'/>
 
   <!-- v-if에 맞는 v-else랑 v-else-if  -->
   <!-- html 태그 속성에 데이터 바인딩할 때는 {{}}가 아니라 속성 앞에 : -->
@@ -27,7 +28,8 @@
     <p>{{a.price}}원</p>
   </div> -->
 
-  <CardBanner :oneroom = 'onerooms[i]' v-for='(a, i) in onerooms' :key= 'i'/>
+  <CardBanner @openModal = "modalOpen = true; modalPressed = $event"
+   :oneroom = 'onerooms[i]' v-for='(a, i) in onerooms' :key= 'i'/>
 
 </template>
    
@@ -36,6 +38,7 @@
 import data from './assets/OneroomDetail.js';
 import DiscountBanner from './DiscountBanner.vue'
 import CardBanner from './CardBanner.vue'
+import ModalComponent from './ModalComponent.vue'
 
 export default {
   name: 'App',
@@ -54,6 +57,7 @@ export default {
   components: {
     DiscountBanner : DiscountBanner,
     CardBanner : CardBanner,
+    ModalComponent : ModalComponent,
   }
 }
 </script>

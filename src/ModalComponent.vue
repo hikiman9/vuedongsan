@@ -5,7 +5,7 @@
       <img :src="onerooms[modalPressed].image" style = "width: 100%">
       <p>{{onerooms[modalPressed].content}}</p>
       <p>{{onerooms[modalPressed].price}}원</p>
-      <button @click = 'modalOpen = false'>닫기</button>
+      <button @click = "$emit('closeModal')">닫기</button>
     </div>
   </div>
 </template>
@@ -15,8 +15,8 @@ export default {
     name : 'ModalComponent',
     props : {
         onerooms : Array,
-        ModalPressed : Number,
-        ModalOpen : Boolean,
+        modalPressed : Number,
+        modalOpen : Boolean,
     }
 }
 </script>
