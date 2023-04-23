@@ -1,11 +1,11 @@
 <template>
   <div class = 'black-bg' v-if = 'modalOpen == true'>
     <div class = 'white-bg'>
-      <h4>{{onerooms[modalPressed].title}}</h4>
-      <img :src="onerooms[modalPressed].image" style = "width: 100%">
-      <p>{{onerooms[modalPressed].content}}</p>
+      <h4>{{oneroomsOriginal[modalPressed].title}}</h4>
+      <img :src="oneroomsOriginal[modalPressed].image" style = "width: 100%">
+      <p>{{oneroomsOriginal[modalPressed].content}}</p>
       <input v-model = "month">
-      <p>{{month}}개월 선택 시: {{onerooms[modalPressed].price * month}}원</p>
+      <p>{{month}}개월 선택 시: {{oneroomsOriginal[modalPressed].price * month}}원</p>
       <button @click = "$emit('closeModal')">닫기</button>
     </div>
   </div>
@@ -30,6 +30,13 @@ export default {
         }
       }
     },
+
+    beforeUpdate(){
+      if(this.month == 2){
+        alert("저게 살거면 가소")
+        this.month = 3
+      }
+    },
     // watch : {
     //   month(a){
     //     if(a >= 13){
@@ -45,6 +52,7 @@ export default {
         onerooms : Array,
         modalPressed : Number,
         modalOpen : Boolean,
+        oneroomsOriginal : Array,
     }
 }
 </script>

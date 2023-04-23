@@ -9,9 +9,11 @@
       <button @click = 'modalOpen = false'>닫기</button>
     </div>
   </div> -->
-
-  <ModalComponent @closeModal = 'modalOpen = false'
-   :onerooms = 'onerooms' :modalPressed = 'modalPressed' :modalOpen = 'modalOpen'/>
+  <Transition name = "fade">
+    <ModalComponent @closeModal = 'modalOpen = false'
+    :onerooms = 'onerooms' :modalPressed = 'modalPressed' :modalOpen = 'modalOpen' :oneroomsOriginal = 'oneroomsOriginal'/>
+  </Transition>
+  
 
   <!-- v-if에 맞는 v-else랑 v-else-if  -->
   <!-- html 태그 속성에 데이터 바인딩할 때는 {{}}가 아니라 속성 앞에 : -->
@@ -20,13 +22,18 @@
     <a v-for = 'a in menus' :key = 'a'> {{a}} </a>
   </div>
 
-  <DiscountBanner/>
+  <DiscountBanner :discountRate = 'discountRate'/>
 
   <!-- <div v-for = '(a, i) in onerooms' :key = 'i'>
     <img :src="a.image" class = 'room_img'>
     <h4 @click = 'modalOpen = true'>{{a.title}} </h4>
     <p>{{a.price}}원</p>
   </div> -->
+
+  <button @click="highToLow">높은 가격순 정렬</button>
+  <button @click="lowToHigh">낮은 가격순 정렬</button>
+  <button @click="sortByName">가나다순 정렬</button>
+  <button @click="sortBack">정렬 초기화</button>
 
   <CardBanner @openModal = "modalOpen = true; modalPressed = $event"
    :oneroom = 'onerooms[i]' v-for='(a, i) in onerooms' :key= 'i'/>
@@ -44,15 +51,40 @@ export default {
   name: 'App',
   data(){
     return{
+      oneroomsOriginal : [...data],
       modalPressed : 0,
       onerooms : data,
       reports : [0, 0, 0],
       menus : ['Home', 'Shop', 'About'],
       products : ['역삼동원룸', '천호동원룸', '마포구원룸'],
-      modalOpen : false
+      modalOpen : false,
+      discountRate : 2,
     }
   },
   methods: {
+    highToLow(){
+      this.onerooms.sort(function(a, b){
+        return b.price - a.price
+      })
+    },
+    lowToHigh(){
+      this.onerooms.sort(function(a, b){
+        return a.price - b.price
+      })
+    },
+    sortByName(){
+      this.onerooms.sort(function(a, b){
+        return a.title.localeCompare(b.title)
+      })
+    },
+    sortBack(){
+      this.onerooms = [...this.oneroomsOriginal]
+    },
+  },
+  mounted(){
+    setInterval(() => {
+        this.discountRate --;
+      }, 1000);
   },
   components: {
     DiscountBanner : DiscountBanner,
@@ -63,6 +95,14 @@ export default {
 </script>
 
 <style>
+
+.fade-enter-from{opacity: 0;}
+.fade-enter-active{transition : 0.3s;}
+.fade-enter-to{opacity: 1;}
+
+.fade-leave-from{opacity: 1;}
+.fade-leave-active{transition : 0.17s;}
+.fade-leave-to{opacity: 0;}
 
 body {
   margin : 0
